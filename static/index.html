@@ -26,6 +26,7 @@
     </head>
 
     <!-- <body bgcolor="white" height="100%" width="100%"> -->
+
     <body>
         <canvas id="c" width="100%" height="100%" style="-webkit-tap-highlight-color: transparent;"></canvas>
         <script>
@@ -90,15 +91,37 @@
 
                     // y + entity["radius"]/10 shifts mouth closer to bottom of circle
                     // entity["radius"]/1.5 sets length of mouth
-                    arc(x, y + entity["radius"]/10, entity["radius"]/1.5, 0, Math.PI, false);
+                    arc(x, y + entity["radius"] / 10, entity["radius"] / 1.5, 0, Math.PI, false);
                     closePath()
 
                     // Dynamically adjust mouth line width based on circle size
-                    lineWidth = entity["radius"]/10;
+                    lineWidth = entity["radius"] / 10;
                     fillStyle = 'white';
                     fill()
                     strokeStyle = 'black';
                     stroke();
+
+
+                    function drawEye(side) {
+                        var radius = entity["radius"];
+
+                        if (side === 'left') {
+                            radius = radius * -1;
+                        }
+
+                        beginPath();
+
+                        moveTo(x + radius / 1.8, y - entity["radius"] / 1.8);
+                        lineTo(x + radius / 5, y - entity["radius"] / 5);
+
+                        lineWidth = entity["radius"] / 10;
+                        strokeStyle = 'black';
+                        stroke();
+
+                    }
+
+                    drawEye('left');
+                    drawEye('right');
 
                 }
             }
@@ -282,13 +305,15 @@
                 return self;
             })();
 
+            var rand_colors = ['red', 'yellow', 'blue', 'green', 'orange', 'grey']
+
             // Add the application specific mouse listeners!
             //XXX: TODO Make these prettier!
             mouse.mousedowners.push(function(x, y, clicked, e) {
                 addEntityWithoutName({
                     'x': x,
                     'y': y,
-                    'colour': 'blue'
+                    'colour': rand_colors[Math.floor(Math.random() *rand_colors.length)]
                 });
             });
 
@@ -296,7 +321,7 @@
                 addEntityWithoutName({
                     'x': x,
                     'y': y,
-                    'colour': 'red'
+                    'colour': rand_colors[Math.floor(Math.random() *rand_colors.length)]
                 });
             });
 
@@ -304,8 +329,8 @@
                 addEntityWithoutName({
                     'x': x,
                     'y': y,
-                    'colour': 'green',
-                    'radius': 10
+                    'colour': rand_colors[Math.floor(Math.random() *rand_colors.length)],
+                    'radius': Math.floor(Math.random() * 20) + 10
                 });
             });
 
