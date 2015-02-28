@@ -44,7 +44,7 @@
    - [x] Implement the webservice root
    - [x] Implement the webservice /entity/entity-name POST/PUT/GET API
    - [x] Implement the webservice /world API
-   - [x] Implement the webservice /clear API
+   - [ ] Implement the webservice /clear API
    - [x] Use JSON or XML to communicate (no plain text!)
    - [x] The webservice can pass all the tests in freetests.py
    - [ ] The webservice can serve /static/index.html
