@@ -44,14 +44,14 @@
    - [x] Implement the webservice root
    - [x] Implement the webservice /entity/entity-name POST/PUT/GET API
    - [x] Implement the webservice /world API
-   - [ ] Implement the webservice /clear API
+   - [x] Implement the webservice /clear API
    - [x] Use JSON or XML to communicate (no plain text!)
    - [x] The webservice can pass all the tests in freetests.py
-   - [ ] The webservice can serve /static/index.html
-   - [ ] static/index.html displays the current state of the webservice
-   - [ ] static/index.html responds to clicks within 100ms on average
-   - [ ] Make static/index.html images look nice
-   - [ ] implement anything marked XXX TODO: in static/index.html
+   - [x] The webservice can serve /static/index.html
+   - [x] static/index.html displays the current state of the webservice
+   - [x] static/index.html responds to clicks within 100ms on average
+   - [x] Make static/index.html images look nice
+   - [x] implement anything marked XXX TODO: in static/index.html
 
 
 ** Restrictions
