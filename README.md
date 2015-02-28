@@ -12,4 +12,4 @@ Contributors / Licensing
 
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
 
-
+Background Image From [OpenClipart](https://openclipart.org/detail/174087/whiteboard-by-mirek2-174087)

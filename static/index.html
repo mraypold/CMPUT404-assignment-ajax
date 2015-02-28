@@ -22,6 +22,7 @@
         limitations under the License.
     "/>
         <script src="json2.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
 
     <body bgcolor="black" height="100%" width="100%">
@@ -40,7 +41,9 @@
                         try {
                             if (xhr.status == 200) {
                                 //XXX: parse some JSON from the request!
+                                var parsed = JSON.parse(xhr.responseText);
                                 //XXX: Pass the data to the callback!
+                                callback(parsed);
                             }
                         } catch (e) {
                             alert('Error: ' + e.name);
@@ -50,15 +53,13 @@
                 //XXX: POST to a URL
                 //XXX: set the mimetype and the accept headers!
                 // Remember to use application/json !
-                console.log(url)
-
-                xhr.open("POST",url,true);
-                xhr.setRequestHeader("Content-type","application/json");
-                xhr.setRequestHeader("Accept","*/*");
-
-                console.log(JSON.stringify({'foo':'bar'}))
-
-                xhr.send(JSON.stringify({'foo':'bar'}));
+                var json = JSON.stringify(objects)
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-type", "application/json");
+                xhr.setRequestHeader("Accept", "*/*");
+                xhr.setRequestHeader("Content-length", json.length);
+                xhr.setRequestHeader("Connection", "Keep-Alive");
+                xhr.send(json);
             }
 
 
@@ -144,10 +145,14 @@
 
 
             function addEntity(entity, data) {
+                // entity is name
                 world[entity] = data;
                 drawNextFrame(); // (but should we?)
                 //XXX: Send a XHTML Request that updates the entity you just  modified!
-
+                sendJSONXMLHTTPRequest('/entity/' + encodeURIComponent(entity), data,
+                    function(data) {
+                        console.log(data);
+                    });
             }
 
             var counter = 0;
@@ -284,14 +289,16 @@
 
             function update() {
                 //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
-                sendJSONXMLHTTPRequest('/world', null, null);
+                sendJSONXMLHTTPRequest('/world', null, function(data) {
+                    world = data;
+                    drawNextFrame();
+                });
                 drawFrame();
             }
 
             // 30 frames per second
             // setInterval(update, 1000 / 30.0);
             setInterval(update, 1000 / 0.2);
-
         </script>
     </body>
 

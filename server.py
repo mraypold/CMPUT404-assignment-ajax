@@ -22,14 +22,15 @@
 
 
 import flask
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, url_for
 import json
 
-import os
+# import os
+# STATIC_DIR = os.path.abspath('static')
+# app = Flask(__name__, static_url_path=STATIC_DIR)
 
-STATIC_DIR = os.path.abspath('static')
+app = Flask(__name__, static_url_path='')
 
-app = Flask(__name__, static_url_path=STATIC_DIR)
 app.debug = True
 
 # An example world
@@ -84,32 +85,32 @@ def hello():
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
     '''update the entities via this interface'''
-    print 'In Entity!'
-    return jsonify({'hello':'world'})
+    # Don't force if mimetype not application/json, fail silently and cache the request
+    json = request.get_json(force = True, silent = True, cache = True)
+    myWorld.set(entity, json)
+
+    return jsonify(**myWorld.get(entity))
 
 @app.route("/world", methods=['POST','GET'])
 def world():
     '''you should probably return the world here'''
-    print 'In World!'
-    print request.data
-    return jsonify({'hello':'world'})
+    return jsonify(**myWorld.world())
 
 @app.route("/entity/<entity>")
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    print 'In Get Entity'
-    return jsonify({'hello':'world'})
+    return jsonify(**myWorld.get(entity))
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
+    myWorld.clear()
+
     if request.method == 'POST':
-        return redirect(url_for('hello'))
+        return jsonify(**myWorld.world())
 
     if request.method == 'GET':
         return redirect(url_for('hello'))
-
-    return None
 
 if __name__ == "__main__":
     app.run()
